@@ -124,7 +124,7 @@ if st.button("분석 시작", type="primary"):
 
             try:
                 response = client.models.generate_content(
-                    model='gemini-2.5-flash',
+                    model='gemini-3.1-flash-lite',
                     contents=prompt,
                     config=types.GenerateContentConfig(
                         tools=[types.Tool(google_search=types.GoogleSearch())]
@@ -173,7 +173,7 @@ if st.session_state.last_analysis:
             easier_prompt = f"다음 내용을 사회 초년생도 이해하게 쉬운 비유로 설명해줘. 예를 들어 영업이익 하락은 회사가 벌어들이는 돈이 줄다 이런식으로. : {st.session_state.last_analysis}"
             try:
                 response_easy = client.models.generate_content(
-                    model='gemini-2.0-flash',
+                    model='gemini-3.1-flash-lite',
                     contents=easier_prompt
                 )
                 final_easy_text = get_text_from_response(response_easy)
