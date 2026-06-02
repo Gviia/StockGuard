@@ -51,7 +51,7 @@ def extract_text_from_url(url):
         return f"URL 분석 실패: {e}"
 
 def keyword_risk_check(text):
-    risk_keywords = ["100% 수익 보장", "작전주", "VIP방", "상한가", "지금 당장", "원금보전", "무조건", "폭등", "대박"]
+    risk_keywords = ["보장", "작전", "VIP", "상한가", "당장", "원금", "무조건", "폭등", "대박","빨리"]
     found_keywords = [kw for kw in risk_keywords if kw in text]
     return found_keywords
 
@@ -82,14 +82,14 @@ if st.button("분석 시작", type="primary"):
             if found_keywords:
                 st.error(f"⚠️ 위험 글 가능성 포착! 위험 키워드 감지: {', '.join(found_keywords)}")
             else:
-                st.success("✅ 1차 분석 안전 | 위험 키워드 감지 안됨")
+                st.success("✅ 1차 키워드 분석 안전 | 위험 키워드 감지 안됨")
             
             prompt = f"""
             오늘 날짜는 {today}입니다.
             당신은 금융 전문가입니다. 사용자 수준('{st.session_state.user_level}')에 맞춰 설명하세요. 
-            오늘 날짜를 기준으로 설명해야합니다.
+            오늘 날짜를 기준으로 설명해야하며, 주식과 주가도 오늘 날짜 기준의 최신 내용으로 업데이트하여 정보를 제공해야됩니다.
             [분석 내용]: {target_text}
-            구글 검색 기능을 활용해 글의 정보의 사실 여부를 공시/뉴스로 교차 검증하세요.
+            반드시 google search 기능을 활용해 글의 정보의 사실 여부를 공시/뉴스로 교차 검증하세요.
             주가 관련 내용이 존재하면 반드시 google search를 사용하여 현재 공식 주식 정보를 바탕으로 사용자에게 정보를 제공하세요.
             
             규칙:
@@ -97,8 +97,8 @@ if st.button("분석 시작", type="primary"):
             2. 위험 표현은 <span style="color:red; font-weight:bold;">텍스트</span>로 감싸기.
             3. 주관적 표현은 <span style="color:orange; font-weight:bold;">텍스트</span>로 감싸기.
             4. 답변의 가장 마지막에는 반드시 `> **최종 결론:** 지금 바로 투자하기에는 위험해 보입니다.` 혹은 `객관적인 팩트가 섞여있으나 주관적인 부분은 잘 판단해야합니다.` 와 같은 형식의 직관적인 한 줄 요약 박스를 제공하세요. 제가 드린 예시 외에도 비슷한 뉘앙스로 정보글마다 판단하여 요약 박스를 제공하세요.
-            5. 전체적인 분석 글을 작성하기에 앞서 제일 먼저 간단하게 결론 요약을 한줄로 해야합니다. 최종 결론을 간단하게만 요약하면 됩니다.
-            6. 만약 위험 키워드가 감지되었을 경우 Google Search 기능을 반드시 사용하십시오.
+            5. 전체적인 분석 글을 작성하기에 앞서 제일 먼저 간단하게 결론 요약을 한줄로 해야합니다. 최종 결론을 간단하게 2-3줄만 요약하면 됩니다.
+            
             """
             
             try:
