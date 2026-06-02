@@ -125,7 +125,7 @@ if st.button("분석 시작", type="primary"):
 
             try:
                 response = client.models.generate_content(
-                    model='gemini-3.1-flash-lite',
+                    model='gemini-3.5-flash',
                     contents=prompt,
                     config=types.GenerateContentConfig(
                         tools=[types.Tool(google_search=types.GoogleSearch())]
