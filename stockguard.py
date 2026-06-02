@@ -84,16 +84,16 @@ if st.button("분석 시작", type="primary"):
             if user_input.startswith("http"):
                 target_text = extract_text_from_url(user_input)
                 st.write("🔗 URL 본문 추출 완료")
-            time.sleep(0.4)
+            time.sleep(1.0)
 
             # STEP 2: 1차 키워드 필터링
-            st.write("🧹 위험 키워드 1차 필터링 중...")
-            time.sleep(0.8)
+            st.write("위험 키워드 1차 필터링 중...")
+            time.sleep(1.0)
             found_keywords = keyword_risk_check(target_text)
 
             # STEP 3: 구글 검색 기반 AI 분석
             st.write("🌐 실시간 뉴스 및 공시 데이터 수집 중...")
-            time.sleep(0.8)
+            time.sleep(1.0)
 
             st.write("🤖 AI가 정보의 사실 여부를 교차 검증하는 중...")
 
