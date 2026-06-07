@@ -50,6 +50,17 @@ def get_text_from_response(response):
     except Exception as e:
         return f"텍스트 추출 중 오류 발생: {e}"
 
+def extract_text_from_url(url):
+    """URL 본문 텍스트를 추출(최대 3000자). 입력이 URL일 때 사용."""
+    try:
+        response = requests.get(url, timeout=5, headers={'User-Agent': 'Mozilla/5.0'})
+        soup = BeautifulSoup(response.text, 'html.parser')
+        for script in soup(["script", "style"]):
+            script.extract()
+        return soup.get_text(separator=' ', strip=True)[:3000]
+    except Exception as e:
+        return f"URL 분석 실패: {e}"
+
 def extract_sources(response):
     """[추가] Google Search 교차검증에 실제로 사용된 출처(공시/뉴스) 링크를 추출.
     → 테스트에서 고급 사용자가 '검증해준다면서 출처가 없다'고 지적한 문제 해결."""
@@ -162,7 +173,7 @@ if st.button("분석 시작", type="primary"):
             progress.progress(65, text="실시간 뉴스·공시 수집 중...")
             time.sleep(0.4)
 
-            st.write("🤖 AI가 정보의 사실 여부를 교차 검증하는 중... (마지막 단계에서 조금 걸립니다..)")
+            st.write("🤖 AI가 정보의 사실 여부를 교차 검증하는 중... (수 초~십여 초 걸릴 수 있어요. 멈춘 게 아니에요!)")
             progress.progress(80, text="AI 교차 검증 중... 잠시만 기다려 주세요!")
 
             # [변경] 선택된 수준의 지침만 동적으로 주입(세 수준을 한꺼번에 나열하면
